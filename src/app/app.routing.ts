@@ -13,9 +13,9 @@ export const routes: Routes = [
     path: 'users',
     component: UsersMainComponent,
     children: [
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
+      { path: '', redirectTo: 'list', pathMatch: 'full' }, // редиректим на роут который является дефолтным
       { path: 'list', component: UsersListComponent },
-      { path: 'detail/:id', component: UsersDetailComponent },
+      { path: 'detail/:id', component: UsersDetailComponent }, // :id - это params, detail/1?key1=value1&key2=value2
     ]
   },
   { path: 'home', component: HomeComponent },

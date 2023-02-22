@@ -7,6 +7,11 @@ import { UsersMainComponent } from './pages/users/main.component';
 import { UsersListComponent } from './pages/users/list.component';
 import { routes } from './app.routing';
 
+// Инциализация роутинга
+// 1. Подключаем модуль
+// 2. Подключаем роуты
+// 3.
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,7 +20,10 @@ import { routes } from './app.routing';
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' }),
+    RouterModule.forRoot(routes, {
+      // enableTracing: true, // Переменные окружения?
+      scrollPositionRestoration: 'enabled'
+    }),
   ],
   bootstrap: [AppComponent]
 })
