@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 
+import { CommonPageResolver } from './resolvers/common-pages-resolver';
 
 import { AppComponent } from './app.component';
 import { routes } from './app.routing';
@@ -18,6 +19,7 @@ import { routes } from './app.routing';
       preloadingStrategy: PreloadAllModules
     }),
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [CommonPageResolver]
 })
 export class AppModule { }
