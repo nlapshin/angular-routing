@@ -1,0 +1,87 @@
+@Injectable({
+  providedIn: 'root'
+})
+export class RoleGuard implements CanActivate {
+
+  constructor(private authService: AuthService) {}
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    const requiredRole = route.data.requiredRole;
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser && currentUser.role === requiredRole) {
+      return true;
+    } else {
+      this.router.navigate(['/access-denied']);
+      return false;
+    }
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+
+  constructor(private authService: AuthService) {}
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      return true;
+    } else {
+      this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+      return false;
+    }
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DirtyFormGuard implements CanDeactivate<FormComponent> {
+
+  canDeactivate(component: FormComponent) {
+    if (component.isDirty()) {
+      return confirm('Are you sure you want to leave this page? Your changes will be lost.');
+    } else {
+      return true;
+    }
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CachedDataResolver implements Resolve<Data> {
+
+  private cache = new Map<string, Data>();
+
+  constructor(private dataService: DataService) {}
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    const id = route.paramMap.get('id');
+    if (this.cache.has(id)) {
+      return of(this.cache.get(id));
+    } else {
+      return this.dataService.getData(id).pipe(
+        tap(data => this.cache.set(id, data))
+      );
+    }
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MultipleDataResolver implements Resolve<{ data1: Data, data2: Data }> {
+
+  constructor(private dataService: DataService) {}
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    const id1 = route.queryParamMap.get('id1');
+    const id2 = route.queryParamMap.get('id2');
+    const data1$ = this.dataService.getData(id1);
+    const data2$ = this.dataService.getData(id2);
+    return forkJoin({ data1: data1$, data2: data2$ });
+  }
+}
