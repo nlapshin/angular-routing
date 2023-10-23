@@ -11,7 +11,7 @@ export class RoleGuard implements CanActivate {
     if (currentUser && currentUser.role === requiredRole) {
       return true;
     } else {
-      this.router.navigate(['/access-denied']);
+      this.router.navigate(['/login']);
       return false;
     }
   }
@@ -29,6 +29,8 @@ export class AuthGuard implements CanActivate {
     if (currentUser) {
       return true;
     } else {
+      // Пошел по ссылки -> получил запрет доступа -> запоминаем состояние в
+      // query string.
       this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
       return false;
     }
@@ -85,3 +87,11 @@ export class MultipleDataResolver implements Resolve<{ data1: Data, data2: Data 
     return forkJoin({ data1: data1$, data2: data2$ });
   }
 }
+
+
+// <router-outlet></router-outlet>
+// <div></div> // постоянные
+// <router-outlet name='left'></router-outlet>
+// <div></div> // переменные
+// <router-outlet name='right'></router-outlet>
+// Можно ли это заменить на композицию компонентов?

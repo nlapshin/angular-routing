@@ -32,6 +32,7 @@ export class UsersDetailComponent {
   goHome() {
     this.router.navigate(
       ['/home'],
+      { state: { key: 'value' } }
     );
   }
 }

@@ -16,8 +16,8 @@ import { UsersDetailComponent } from './pages/users.detail.component';
   imports: [
     RouterModule.forChild([
       { path: '', redirectTo: 'list', pathMatch: 'full' },
-      { path: 'list', component: UsersListComponent, canActivate: [IsAuthenticatedGuard] },
-      { path: 'detail/:id', component: UsersDetailComponent, canActivate: [IsAuthenticatedGuard] },
+      { path: 'list', component: UsersListComponent },
+      { path: 'detail/:id', component: UsersDetailComponent },
     ]),
   ],
   providers: [IsAuthenticatedGuard]

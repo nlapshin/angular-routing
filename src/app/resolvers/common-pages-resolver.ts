@@ -3,19 +3,11 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   Router,
+  Resolve
 } from '@angular/router';
 
-async function getData(): Promise<{ key: string } | null> {
-  return new Promise((res) => {
-    setTimeout(() => {
-      res({ key: 'value' } )
-    }, 500)
-  })
-}
-
-
 @Injectable()
-export class CommonPageResolver {
+export class CommonPageResolver implements Resolve<{ key: string }> {
   constructor(private router: Router) {}
 
   async resolve(
@@ -25,7 +17,7 @@ export class CommonPageResolver {
     try {
       const data = await getData();
 
-      console.log(data);
+      console.log('data', data);
 
       return data;
     } catch (err) {
@@ -33,4 +25,12 @@ export class CommonPageResolver {
       return;
     }
   }
+}
+
+async function getData(): Promise<{ key: string } | null> {
+  return new Promise((res) => {
+    setTimeout(() => {
+      res({ key: 'value' } )
+    }, 500)
+  })
 }

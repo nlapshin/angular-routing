@@ -9,7 +9,7 @@ export class HomeComponent {
   constructor(private route: ActivatedRoute) { }
   ngOnInit() {
     this.route.data.subscribe((data: any) => {
-      console.log(data);
+      console.log('subscribe data', data);
     });
   }
 }
